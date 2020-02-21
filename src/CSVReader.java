@@ -30,7 +30,7 @@ public class CSVReader {
             while ((row = bufferedReader.readLine()) != null) {
                 String data[] = row.split(";");
 
-                // Checking if String from "RepID" already exists
+                // Checking if String from "RepID" already exists for both edges
                 existsAndPut(map, data, 0, 1, 2);
                 existsAndPut(map, data, 5, 6, 2);
 
