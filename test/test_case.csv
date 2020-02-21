@@ -1,0 +1,4 @@
+TAG_PIPE;REP_ID;PIPE_TYPE;DIAM_SELF;DRAWING;TAG_OTHER;REP_OTHER_ID;POSITION;TYPE;INFO;QUERY;
+1;FirstRep;Conditioned Air Return;;FirstDrawing;FirstOtherTag;2;To;Inline;;;
+2;FirstRep;SecondaryPiping;;FirstDrawing;3;FirstRepOther;To;Inline;;;
+1;FirstRep;PrimaryPiping;;FirstDrawing;3;FirstRepOther;To;Inline;;;

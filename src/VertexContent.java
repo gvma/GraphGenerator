@@ -3,11 +3,15 @@ public class VertexContent {
     private String tagPipe;
     private String repID;
     private String pipeType;
+    private String drawing;
+    private Long vertexID;
 
-    public VertexContent(String tagPipe, String repID, String pipeType) {
+    public VertexContent(String tagPipe, String repID, String pipeType, String drawing, Long vertexID) {
         this.tagPipe = tagPipe;
         this.repID = repID;
         this.pipeType = isPipe(pipeType);
+        this.drawing = drawing;
+        this.vertexID = vertexID;
     }
 
     public String isPipe(String pipeType) {
@@ -59,8 +63,24 @@ public class VertexContent {
         this.pipeType = pipeType;
     }
 
+    public String getDrawing() {
+        return drawing;
+    }
+
+    public void setDrawing(String drawing) {
+        this.drawing = drawing;
+    }
+
+    public Long getVertexID() {
+        return vertexID;
+    }
+
+    public void setVertexID(Long vertexID) {
+        this.vertexID = vertexID;
+    }
+
     @Override
     public String toString() {
-        return "TagPipe: " + tagPipe + "\nRepID: " + repID + "\nPipeType: " + pipeType + "\n";
+        return "TagPipe: " + tagPipe.replace('$', ' ') + "\nRepID: " + repID + "\nPipeType: " + pipeType + "\nDrawing: " + drawing + "\nVertexID: " + vertexID.intValue() + "\n";
     }
 }
