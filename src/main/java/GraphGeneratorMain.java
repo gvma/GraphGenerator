@@ -31,14 +31,14 @@ public class GraphGeneratorMain {
             String[] from = {args[1], args[2]};
             String[] to = {args[3], args[4]};
             System.out.println("====================\n");
+
             for (int i = 0; i < 2; ++i) {
-                from[i] = from[i].replace(' ', '$');
-                to[i] = to[i].replace(' ', '$');
                 System.out.println(from[i] + " and " + to[i]);
             }
+
             List<String> drawingsList = new LinkedList<String>();
             for (int i = 5; i < args.length; ++i) {
-                drawingsList.add(args[i].replace(' ', '$')); // Processing all inputs
+                drawingsList.add(args[i]); // Processing all drawings
             }
 
             System.out.println("Finding the initial vertex!");
@@ -48,22 +48,23 @@ public class GraphGeneratorMain {
             System.out.println("Finding the destination vertex!");
             VertexContent end = graph.vertexSet().stream().filter(vertexContent -> (vertexContent.getTagPipe().equals(to[0]) && vertexContent.getDrawing().equals(to[1]))).findAny().get();
             System.out.println("Done!\n\n");
-//
+
+            System.out.println("Start Vertex:");
+            System.out.println(start.toString());
+            System.out.println("End Vertex:");
+            System.out.println(end.toString());
+
             System.out.println("Finding all paths possible!");
-            Graph<VertexContent, DefaultEdge> subGraph = graphGenerator.findPathsBetweenVertexes(start, end, drawingsList).getGraph();
-            System.out.println("Number of Paths: " + subGraph.vertexSet().size() + "\nDone!\n\n");
-            Iterator<VertexContent> it = new DepthFirstIterator<>(subGraph, start);
-            while (it.hasNext()) {
-                System.out.println(it.next().toString());
+            List<GraphPath<VertexContent, DefaultEdge>> paths = graphGenerator.findPathsBetweenVertexes(start, end);
+            int count = 0;
+            System.out.println(paths.size());
+            for (GraphPath<VertexContent, DefaultEdge> path : paths) {
+                System.out.println("Path of number: " + (++count));
+                for (VertexContent vertex : path.getVertexList()) {
+                    System.out.println(vertex);
+                }
             }
-//            int count = 0;
-//            System.out.println("Printing all Paths: ");
-//            for (GraphPath<VertexContent, DefaultEdge> path : paths.getPath()) {
-//                System.out.println("Path of number: " + (++count));
-//                for (VertexContent vertex : path.getVertexList()) {
-//                    System.out.println(vertex.toString());
-//                }
-//            }
+
         } catch (NoSuchElementException e) {
             System.out.println("Looks like there isn't any vertex with those identifiers.");
         } catch (FileNotFoundException e) {

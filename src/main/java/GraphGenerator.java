@@ -15,7 +15,7 @@ public class GraphGenerator {
 
     private String csvPath;
     private BufferedReader bufferedReader;
-    private Graph<VertexContent, DefaultEdge> graph = new DirectedMultigraph<>(DefaultEdge.class);
+    private Graph<VertexContent, DefaultEdge> graph = new DirectedMultigraph<VertexContent, DefaultEdge>(DefaultEdge.class);
     int vertexCount = 0;
 
     public GraphGenerator(String csvPath) throws FileNotFoundException {
@@ -34,8 +34,7 @@ public class GraphGenerator {
     }
 
     public Graph<VertexContent, DefaultEdge> generateGraph() {
-//        Graph<VertexContent, DefaultEdge> graph = new DirectedMultigraph<>(DefaultEdge.class);
-        Map<String, VertexContent> map = new HashMap<>();
+        Map<String, VertexContent> map = new HashMap<String, VertexContent>();
         int edges = 0;
         try {
             String row;
@@ -44,13 +43,6 @@ public class GraphGenerator {
             while ((row = bufferedReader.readLine()) != null) {
                 ++edges;
                 String data[] = row.split(";");
-//                if (data[0].equals("-ACR- -889-") || data[5].equals("-ACR- -889-")) {
-                data[0] = data[0].replace(' ', '$');
-                data[5] = data[5].replace(' ', '$');
-//                }
-
-
-//                System.out.println(data[0] + "    " + data[5]);
 
                 // Checking if String from "RepID" already exists for both edges
                 existsAndPut(map, data, graph, 0, 1, 2, 4, graph.vertexSet().size());
@@ -74,23 +66,9 @@ public class GraphGenerator {
         return this.graph;
     }
 
-    public ShortestPathAlgorithm.SingleSourcePaths<VertexContent, DefaultEdge> findPathsBetweenVertexes(VertexContent start, VertexContent end, List<String> drawingsList) {
-        AllDirectedPaths<VertexContent, DefaultEdge> pathFinder = new AllDirectedPaths<>(graph);
-        Set<VertexContent> sourceVertex = new HashSet<>();
-        sourceVertex.add(start);
-        Set<VertexContent> destinationVertex = new HashSet<>();
-        destinationVertex.add(end);
-        Set<VertexContent> landmarks = new HashSet<>();
-
-        for (VertexContent v : graph.vertexSet()) {
-            if (drawingsList.contains(v.getDrawing())) {
-                landmarks.add(v);
-            }
-        }
-        System.out.println(landmarks.size());
-        AStarShortestPath<VertexContent, DefaultEdge> aStarShortestPath = new AStarShortestPath<>(graph, new ALTAdmissibleHeuristic<>(graph, landmarks));
-        return aStarShortestPath.getPaths(start);
-//        return pathFinder.getAllPaths(sourceVertex, destinationVertex, true, null);
+    public List<GraphPath<VertexContent, DefaultEdge>> findPathsBetweenVertexes(VertexContent start, VertexContent end) {
+        AllDirectedPaths<VertexContent, DefaultEdge> pathFinder = new AllDirectedPaths<VertexContent, DefaultEdge>(graph);
+        return pathFinder.getAllPaths(start, end, true, 80);
     }
 
     public String getCsvPath() {
