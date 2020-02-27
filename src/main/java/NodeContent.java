@@ -1,4 +1,6 @@
-public class VertexContent {
+package main.java;
+
+public class NodeContent {
 
     private String tagPipe;
     private String repID;
@@ -6,7 +8,7 @@ public class VertexContent {
     private String drawing;
     private Long vertexID;
 
-    public VertexContent(String tagPipe, String repID, String pipeType, String drawing, Long vertexID) {
+    public NodeContent(String tagPipe, String repID, String pipeType, String drawing, Long vertexID) {
         this.tagPipe = tagPipe;
         this.repID = repID;
         this.pipeType = isPipe(pipeType);
